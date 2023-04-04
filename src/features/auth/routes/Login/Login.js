@@ -2,10 +2,12 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 // import axiosWithAuth from "../../../../utils/axioswithauth";
 import { Container, Button } from "../../../../components";
 import "./Login.scss";
 export function Login() {
+  const Navigate = useNavigate();
   // let user = {
   //   name: "nate",
   //   email: "email@email.com",
@@ -59,6 +61,7 @@ export function Login() {
       .catch((err) => {
         console.log(err);
       });
+    Navigate("/dogs");
   };
   return (
     <Container>
