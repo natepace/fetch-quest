@@ -1,12 +1,19 @@
 //html reset
-* {
+// * {
+//   margin: 0;
+//   padding: 0;
+//   height: 100%;
+//   width: 100%;
+// }
+.vsc-initialized {
   margin: 0;
-  padding: 0;
 }
+@import url("https://fonts.googleapis.com/css2?family=Underdog&display=swap");
 
 .app {
-  width: 100%;
-  display: flex;
+  font-family: "Underdog", cursive;
+  overflow: hidden;
+  // display: flex;
   &-redpill {
     background-color: #073653;
     color: #78c475;

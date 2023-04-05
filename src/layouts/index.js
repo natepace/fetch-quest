@@ -5,8 +5,8 @@ export function AppLayout() {
   //   const { user } = useAuth();
   console.log("hi from applayout");
   return (
-    <>
+    <div className="app">
       <AppRoutes />
-    </>
+    </div>
   );
 }

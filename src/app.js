@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useContext } from "react";
-import { ThemeContext } from "./themes/themeprovider";
+import { ThemeContext } from "./contexts/themes/themeprovider";
 import { Button, Container } from "./components/";
 import "./app.scss";
 import { AppLayout } from "./layouts/index";
