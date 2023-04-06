@@ -16,6 +16,6 @@ export const publicRoutes = [
   },
   {
     path: "dogs",
-    element: <DogsList />,
+    element: <Navigate to="/login" />,
   },
 ];

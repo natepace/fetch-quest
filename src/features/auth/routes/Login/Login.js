@@ -1,6 +1,7 @@
 //login
 import * as React from "react";
 import { useEffect, useState } from "react";
+import { useUserContext } from "../../../../contexts/userContext";
 import axios from "axios";
 import { useNavigate } from "react-router";
 // import axiosWithAuth from "../../../../utils/axioswithauth";
@@ -8,35 +9,22 @@ import { Container, Button } from "../../../../components";
 import "./Login.scss";
 export function Login() {
   const Navigate = useNavigate();
-  // let user = {
-  //   name: "nate",
-  //   email: "email@email.com",
-  // };
-  const [user, setUser] = useState({
+
+  const [localUser, setLocalUser] = useState({
     name: "",
     email: "",
   });
+  const [user, userToken, updateUser] = useUserContext();
 
   useEffect(() => {
-    // const handleClicky = () => {
-    axios
-      .get(`https://frontend-take-home-service.fetch.com/dogs/breeds`, {
-        headers: {
-          "fetch-api-key":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NzgzMDU2MTF9.Ky49nXH6qgHJQ0CBsZGYsP7_Is2am3u5j3RAdEl457s",
-        },
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res.data);
-      });
-    // };
+    localStorage.removeItem("fetch-access-token");
+    updateUser(null);
   }, []);
   console.log(user);
   const handleChange = (e) => {
     // e.preventDefault();
     const { name, value } = e.target;
-    setUser((prev) => {
+    setLocalUser((prev) => {
       return {
         ...prev,
         [name]: value,
@@ -44,43 +32,44 @@ export function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post(`https://frontend-take-home-service.fetch.com/auth/login`, user, {
-        headers: {
-          "fetch-api-key":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NzgzMDU2MTF9.Ky49nXH6qgHJQ0CBsZGYsP7_Is2am3u5j3RAdEl457s",
-        },
+    const navTime = await updateUser(localUser);
+    console.log(navTime);
 
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
     Navigate("/dogs");
   };
   return (
     <Container>
-      <form onSubmit={handleSubmit}>
-        <h1>WELCOME</h1>
-        <input
-          placeholder="Name"
-          name="name"
-          value={user.name}
-          onChange={handleChange}
-        />
-        <input
-          placeholder="email"
-          name="email"
-          value={user.email}
-          onChange={handleChange}
-        />
-        <button>Submit</button>
-      </form>
+      <div className="login">
+        <form onSubmit={handleSubmit}>
+          <div className="login-loginBox">
+            <div className="login-loginElement">
+              <h2>Welcome to Fetch Quest</h2>
+            </div>
+            {/* <p className="login-loginElement">My Quest to Impress Fetch</p> */}
+            <div className="login-loginElement">
+              <input
+                placeholder="Name"
+                name="name"
+                value={localUser.name}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="login-loginElement">
+              <input
+                placeholder="email"
+                name="email"
+                value={localUser.email}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="login-loginElement">
+              <Button raised>Login</Button>
+            </div>
+          </div>
+        </form>
+      </div>
     </Container>
   );
 }

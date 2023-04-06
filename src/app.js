@@ -8,9 +8,9 @@ import { AppLayout } from "./layouts/index";
 function FetchQuestApp() {
   const { toggle, toggler } = useContext(ThemeContext);
   return (
-    <>
+    <div className="app">
       <AppLayout />
-    </>
+    </div>
     // <div className={toggle ? "app-redpill" : "app-bluepill"}>
     // <Container className={toggle ? "app-redpill" : "app-bluepill"}>
     //   <AppLayout />

@@ -12,8 +12,19 @@
     cursor: pointer;
     font-size: 15px;
     font-weight: 500;
-    height: 50px;
+    height: 40px;
     line-height: 1.5;
-    padding: 14px 30px;
+    padding: 0 30px;
+    margin: 4px 2rem;
+    width: 100%;
   }
+}
+button:hover {
+  outline: none;
+  border-color: #9ecaed;
+  box-shadow: 0 0 8px #9ecaed;
+}
+button:focus {
+  color: #2f80ed;
+  background-color: #fff;
 }

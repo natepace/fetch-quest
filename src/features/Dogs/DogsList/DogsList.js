@@ -2,19 +2,19 @@ import * as React from "react";
 import { useContext } from "react";
 import { Container } from "../../../components";
 import { DogContext } from "../../../contexts/dogsContext";
-export function DogsList() {
-  const dogs = useContext(DogContext);
-
-  if (!dogs) {
-    return <div>Loading...</div>;
-  }
+import "./DogsList.scss";
+export function DogsList(props) {
+  const dogs = props.dogs;
+  console.log(dogs);
+  // if (!dogs) {
+  //   return <div>Loading...</div>;
+  // }
+  // localStorage.removeItem("fetch-access-token");
   return (
-    <Container>
-      <div>
-        {dogs.map((dog, idx) => {
-          return <h1 key={idx}>{dog}</h1>;
-        })}
-      </div>
-    </Container>
+    <div className="DogsList">
+      {dogs.map((dog, idx) => {
+        return <h1 key={idx}>{dog}</h1>;
+      })}
+    </div>
   );
 }

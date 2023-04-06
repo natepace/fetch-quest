@@ -1,14 +1,19 @@
 import * as React from "react";
 import { Navigate } from "react-router-dom";
+import { DogsList, Home } from "../features";
 import { Login } from "../features/auth";
 
-export const authroutes = [
+export const authRoutes = [
   {
-    path: "/",
-    element: <Navigate to="/login" />,
+    path: "dogs",
+    element: <DogsList />,
   },
   {
-    path: "/login",
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "login",
     element: <Login />,
   },
 ];

@@ -14,19 +14,41 @@ const apiHeaders = {
 
 export const DogContext = createContext(null);
 
-export const DogsProvider = ({ children }) => {
-  const [dogs, setDogs] = useState(null);
+export function useDogsContext() {
+  return useContext(DogContext);
+}
 
-  useEffect(() => {
+export const DogsProvider = ({ children }) => {
+  const [dogs, setDogs] = useState();
+
+  function dogSetter() {
+    console.log("hi from dogcontext");
     axios
       .get(fetchURL, apiHeaders)
       .then((res) => {
         setDogs(res.data);
+        console.log(res);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }
 
-  return <DogContext.Provider value={dogs}>{children}</DogContext.Provider>;
+  // useEffect(() => {
+  //   axios
+  //     .get(fetchURL, apiHeaders)
+  //     .then((res) => {
+  //       setDogs(res.data);
+  //       console.log(res);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+
+  return (
+    <DogContext.Provider value={[dogs, dogSetter]}>
+      {children}
+    </DogContext.Provider>
+  );
 };
