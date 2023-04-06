@@ -20,18 +20,45 @@ export function useDogsContext() {
 
 export const DogsProvider = ({ children }) => {
   const [dogs, setDogs] = useState();
-
-  function dogSetter() {
+  const [nodes, setNodes] = useState([])
+  const [ids, setIds] = useState([])
+  useEffect(()=>{
+    dogSetter()
+    idGrabber()
+  },[])
+  // ?size=10000
+const idGrabber = async () => {
+  const response = await axios
+  .get(`https://frontend-take-home-service.fetch.com/dogs/search?size=10`, apiHeaders)
+  setIds(response.data.resultIds)
+  console.log(response)
+  return ids
+}
+  const dogSetter = async () => {
     console.log("hi from dogcontext");
-    axios
+    const response = await axios
       .get(fetchURL, apiHeaders)
-      .then((res) => {
-        setDogs(res.data);
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      // .then((res) => {
+      //   // setDogs(res.data);
+      //   console.log(res.data.slice(((pageSize*page)),pageSize))
+      //   setDogs(res.data.slice(((pageSize*page)),pageSize))
+      //   console.log(res);
+      // })
+      // .catch((error) => {
+      //   console.log(error);
+      // });
+      // console.log(response.data.slice(((pageSize*page)),pageSize))
+      setDogs(response.data)
+      console.log(dogs)
+      // setNodes(dogs.slice(((pageSize*page)),pageSize))
+      return dogs
+  }
+  const nodeSetter = async (page, pageSize) => {
+    console.log(page, pageSize)
+    console.log(dogs)
+   const response = await dogs.slice(((pageSize*page)),(pageSize+(pageSize*page)))
+    setNodes(response)
+    return nodes
   }
 
   // useEffect(() => {
@@ -47,7 +74,7 @@ export const DogsProvider = ({ children }) => {
   // }, []);
 
   return (
-    <DogContext.Provider value={[dogs, dogSetter]}>
+    <DogContext.Provider value={[dogs, dogSetter, nodes, nodeSetter, ids]}>
       {children}
     </DogContext.Provider>
   );
