@@ -6,6 +6,7 @@ import { DogsList, DogsPage, Home, Login } from "../features";
 import { useUserContext } from "../contexts/userContext";
 import { AppRoutes } from "../routes/index";
 import { ProtectedRoute } from "../routes/ProtectedRoute";
+import { DogsProvider } from "../contexts/dogsContext";
 export function AppLayout() {
   //   const { user } = useAuth();
   console.log("hi from applayout");
@@ -23,8 +24,10 @@ export function AppLayout() {
           path="/dogs"
           element={
             <ProtectedRoute>
-              <Nav />
-              <DogsPage />
+              <DogsProvider>
+                <Nav />
+                <DogsPage />
+              </DogsProvider>
             </ProtectedRoute>
           }
         />

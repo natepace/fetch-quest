@@ -10,11 +10,11 @@ import { BrowserRouter } from "react-router-dom";
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <UserProvider>
-      <DogsProvider>
-        <ThemeProvider>
-          <FetchQuestApp />
-        </ThemeProvider>
-      </DogsProvider>
+      {/* <DogsProvider> */}
+      <ThemeProvider>
+        <FetchQuestApp />
+      </ThemeProvider>
+      {/* </DogsProvider> */}
     </UserProvider>
   </BrowserRouter>
   // document.getElementById("root")
