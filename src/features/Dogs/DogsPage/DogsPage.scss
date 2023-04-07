@@ -1,0 +1,59 @@
+.dogsPage{
+    display: flex;
+    flex-direction: column;
+    &-container{
+        // max-width: 1270px;
+        display: flex;
+        justify-content: center;
+    }
+    &-header{
+        display: flex;
+        justify-content: center;
+        // flex-direction: column;
+        align-content: center;
+        margin: 2rem;
+        
+        
+    }
+    &-filters{
+        display: flex;
+        justify-content: center;
+        // flex-direction: column;
+        
+        margin: 0 2rem 4rem 2rem;
+        select{
+            background-color: #2f80ed;
+            color: white;
+            padding: 12px;
+            
+            // width: 250px;
+            border: none;
+            border-radius: 8px;
+            font-size: 20px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            
+            option{
+                // padding:30px;
+                // width: 200px;
+                
+            }
+        }
+       
+    }
+    &-pageButtonsWrapper{
+       display: flex;
+       justify-content: center;
+       
+       
+    }
+    &-pageButtons{
+        margin: 1rem 3rem;
+        width: 1270px;
+        display: flex;
+        justify-content: space-between;
+        button{
+            // height: 50px;
+            width: 150px;
+        }
+    }
+}

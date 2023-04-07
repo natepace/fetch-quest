@@ -66,25 +66,61 @@ export function DogsPage() {
     return <div className="app">Loading...</div>;
   }
   return (
-    <div className="DogsList">
-      <h1>still working dogpage</h1>
-      <select onChange={selectChange} value={searchParams.breeds}>
+    <div className="dogsPage">
+      <div className="dogsPage-header"> 
+      <div>
+      <h1>I Chose this font bc its Called Underdog</h1>
+      <p>Welcome to the Dogs Page</p>
+        </div> 
+       
+      
+
+      </div>
+      <div className="dogsPage-filters">
+          <select onChange={selectChange} value={searchParams.breeds}>
         <option value={"all"}>All Breeds</option>
         {breeds.map((breed) => {
           return <option value={breed}>{breed}</option>;
         })}
       </select>
-      <DogsList />
-      {hasPrev ? (
-        <Button onClick={PrevPage}>PREV</Button>
+        </div>
+        <div className="dogsPage-pageButtonsWrapper">
+          <div className="dogsPage-pageButtons">
+                 {hasPrev ? (
+        <Button raised onClick={PrevPage}>PREV PAGE</Button>
       ) : (
-        <Button>PREV</Button>
+        <Button raised>PREV PAGE</Button>
       )}
       {hasNext ? (
-        <Button onClick={NextPage}>NEXT</Button>
+        <Button raised onClick={NextPage}>NEXT PAGE</Button>
       ) : (
-        <Button>NEXT</Button>
+        <Button raised >NEXT PAGE</Button>
       )}
+          </div>
+   
+        </div>
+      
+    
+      <div className="dogsPage-container">
+         <DogsList />
+      </div>
+     <div className="dogsPage-pageButtonsWrapper">
+      <div className="dogsPage-pageButtons">
+
+      
+        {hasPrev ? (
+        <Button raised onClick={PrevPage}>PREV PAGE</Button>
+      ) : (
+        <Button raised>PREV PAGE</Button>
+      )}
+      {hasNext ? (
+        <Button raised onClick={NextPage}>NEXT PAGE</Button>
+      ) : (
+        <Button raised>NEXT PAGE</Button>
+      )}
+      </div>
+     </div>
+    
     </div>
   );
 }

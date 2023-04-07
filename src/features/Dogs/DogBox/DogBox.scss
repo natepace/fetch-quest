@@ -1,15 +1,53 @@
 .dogBox{
     width: 200px;
-    border: 6px solid blue;
-    
+    // border: 6px solid blue;
+    height: fit-content;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1rem 2rem;
+  background: #f8f3e8;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  transition: all .2s ease-in-out; 
     &-imgBox{
-        // width: 100px;
+       
         img{
             width: 200px;
             height: 200px;
             object-fit: cover;
-            // overflow: hidden;
+//             width: 100%;
+//   height: auto;
+//   aspect-ratio: 600/300;
+            
         }
+       
     }
+    h2 {
+      margin-top: 1rem;
+     
+      font-weight: normal;
+      font-size: 2rem;
+      color: #4a4a7d;
+      text-align: center;
+      margin: 0;
+    }
+    &-textBox{
+      &--divider{
+        display: flex;
+        justify-content: space-between;
+           p {
+      
+      font-size: .9rem;
+      color: #5e5e89;
+      text-align: center;
+      margin: 0;
+    }
+      }
+    }
+ 
    
+}
+.dogBox:hover{
+  cursor: pointer;
+ width: 203px;
 }
