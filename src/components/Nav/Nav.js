@@ -18,6 +18,11 @@ export function Nav() {
   return (
     <div className="Nav">
       {/* <div> */}
+      <div className="Nav-title">
+        <h1>Fetch Quest</h1>
+        <h3>. . . a quest to impress fetch</h3>
+      </div>
+
       <Button raised onClick={Logout}>
         logout
       </Button>

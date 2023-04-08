@@ -5,6 +5,7 @@ import { Button, Container } from "../../../components";
 import { DogContext } from "../../../contexts/dogsContext";
 import { useDogsContext } from "../../../contexts/dogsContext";
 import { DogsList } from "../DogsList";
+import { MatchModal } from "../../MatchModal/MatchModal";
 import "./DogsPage.scss";
 
 const baseURL = "https://frontend-take-home-service.fetch.com";
@@ -25,6 +26,7 @@ export function DogsPage() {
   const [breeds, setBreeds] = useState();
   const [isLoading, setLoading] = useState(true);
   const [option, setOption] = useState("all");
+  const [toggleMatchModal, setToggleMatchModal] = useState(false);
   const [
     dogs,
     DogsSetter,
@@ -35,6 +37,10 @@ export function DogsPage() {
     hasPrev,
     searchParams,
     ParamsBreedSetter,
+    favIds,
+    setFavIds,
+    DogMatcher,
+    ClearFavorites,
   ] = useDogsContext();
   useEffect(() => {
     axios
@@ -67,60 +73,112 @@ export function DogsPage() {
   }
   return (
     <div className="dogsPage">
-      <div className="dogsPage-header"> 
-      <div>
-      <h1>I Chose this font bc its Called Underdog</h1>
-      <p>Welcome to the Dogs Page</p>
-        </div> 
-       
-      
-
+      <div className="dogsPage-header">
+        <div>
+          <h1>Welcome to the Dogs Page</h1>
+          <p>I Chose this font because its Called 'Underdog'</p>
+        </div>
       </div>
       <div className="dogsPage-filters">
-          <select onChange={selectChange} value={searchParams.breeds}>
-        <option value={"all"}>All Breeds</option>
-        {breeds.map((breed) => {
-          return <option value={breed}>{breed}</option>;
-        })}
-      </select>
-        </div>
-        <div className="dogsPage-pageButtonsWrapper">
-          <div className="dogsPage-pageButtons">
-                 {hasPrev ? (
-        <Button raised onClick={PrevPage}>PREV PAGE</Button>
-      ) : (
-        <Button raised>PREV PAGE</Button>
-      )}
-      {hasNext ? (
-        <Button raised onClick={NextPage}>NEXT PAGE</Button>
-      ) : (
-        <Button raised >NEXT PAGE</Button>
-      )}
-          </div>
-   
-        </div>
-      
-    
-      <div className="dogsPage-container">
-         <DogsList />
-      </div>
-     <div className="dogsPage-pageButtonsWrapper">
-      <div className="dogsPage-pageButtons">
+        <select onChange={selectChange} value={searchParams.breeds}>
+          <option value={"all"}>All Breeds</option>
+          {breeds.map((breed, idx) => {
+            return (
+              <option value={breed} key={idx}>
+                {breed}
+              </option>
+            );
+          })}
+        </select>
 
-      
-        {hasPrev ? (
-        <Button raised onClick={PrevPage}>PREV PAGE</Button>
-      ) : (
-        <Button raised>PREV PAGE</Button>
-      )}
-      {hasNext ? (
-        <Button raised onClick={NextPage}>NEXT PAGE</Button>
-      ) : (
-        <Button raised>NEXT PAGE</Button>
-      )}
+        <Button
+          raised
+          onClick={() => {
+            ClearFavorites();
+          }}
+        >
+          Clear Favorites
+        </Button>
+        <Button
+          raised
+          // onClick={() => {
+          //   DogMatcher(favIds);
+          // }}
+          onClick={() => setToggleMatchModal(true)}
+        >
+          Find My Match!
+        </Button>
       </div>
-     </div>
-    
+      <div className="dogsPage-pageButtonsWrapper">
+        <div className="dogsPage-pageButtons">
+          {hasPrev ? (
+            <Button raised onClick={PrevPage}>
+              PREV PAGE
+            </Button>
+          ) : (
+            <Button raised>PREV PAGE</Button>
+          )}
+          {hasNext ? (
+            <Button raised onClick={NextPage}>
+              NEXT PAGE
+            </Button>
+          ) : (
+            <Button raised>NEXT PAGE</Button>
+          )}
+        </div>
+      </div>
+
+      <div className="dogsPage-container">
+        <DogsList />
+      </div>
+      <div className="dogsPage-pageButtonsWrapper">
+        <div className="dogsPage-pageButtons">
+          {hasPrev ? (
+            <Button raised onClick={PrevPage}>
+              PREV PAGE
+            </Button>
+          ) : (
+            <Button raised>PREV PAGE</Button>
+          )}
+          {hasNext ? (
+            <Button raised onClick={NextPage}>
+              NEXT PAGE
+            </Button>
+          ) : (
+            <Button raised>NEXT PAGE</Button>
+          )}
+        </div>
+      </div>
+      <MatchModal
+        isOpen={toggleMatchModal}
+        onClose={() => {
+          setToggleMatchModal(false);
+        }}
+
+        // callback={(val) => {
+        //   createAccountContact({
+        //     variables: {
+        //       id: accountId,
+        //       updates: {
+        //         name: val.name,
+        //         title: val.title,
+        //         email: val.email,
+        //         phone: val.phone,
+        //         primary: val.primary,
+        //         sendInvoices: val.sendInvoices,
+        //       },
+        //     },
+        //     refetchQueries: [
+        //       {
+        //         query: ACCOUNT_QUERY,
+        //         variables: {
+        //           id: accountId,
+        //         },
+        //       },
+        //     ],
+        //   });
+        // }}
+      />
     </div>
   );
 }

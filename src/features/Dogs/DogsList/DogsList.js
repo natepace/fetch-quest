@@ -18,9 +18,8 @@ const headersOnly = {
 export function DogsList() {
   const [dogs, DogsSetter, ids] = useDogsContext();
   const [isLoading, setLoading] = useState(true);
+  const [favorites, setFavorites] = useState([]);
   useEffect(() => {
-    // const DogsSetter = (dogIds) => {
-    //   console.log(dogIds);
     axios
       .post(
         `https://frontend-take-home-service.fetch.com/dogs`,
@@ -37,22 +36,23 @@ export function DogsList() {
       });
     // };
   }, []);
-  // const GetDogs = async () => {
-  //   IDGrabber()
-  // }
+
   if (isLoading) {
     return <div className="app">Loading...</div>;
   }
-  // console.log(dogs);
+
   return (
     <div className="DogsList">
       {dogs.map((dog, idx) => {
-        return <DogBox dog={dog} key={idx} />;
+        return (
+          <DogBox
+            dog={dog}
+            key={idx}
+            setFavorites={setFavorites}
+            favorites={favorites}
+          />
+        );
       })}
     </div>
-    // <>
-    //   <h1>still working doglist</h1>
-    //   <DogBox />
-    // </>
   );
 }

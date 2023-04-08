@@ -4,6 +4,7 @@ import axios from "axios";
 
 const baseURL = "https://frontend-take-home-service.fetch.com";
 const dogsSearch = "/dogs/search";
+const dogsMatch = "/dogs/match";
 const fetchKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NzgzMDU2MTF9.Ky49nXH6qgHJQ0CBsZGYsP7_Is2am3u5j3RAdEl457s";
 
@@ -31,6 +32,8 @@ export const DogsProvider = ({ children }) => {
   const [prev, setPrev] = useState();
   const [hasPrev, setHasPrev] = useState(false);
   const [hasNext, setHasNext] = useState();
+  const [favIds, setFavIds] = useState([]);
+
   useEffect(() => {
     IDGrabber();
   }, [searchParams]);
@@ -137,6 +140,14 @@ export const DogsProvider = ({ children }) => {
         console.log(err.message);
       });
   };
+  const DogMatcher = (favDogs) => {
+    axios.post(`${baseURL}${dogsMatch}`, favDogs, apiHeaders).then((res) => {
+      console.log(res.data.match);
+    });
+  };
+  const ClearFavorites = () => {
+    setFavIds([]);
+  };
 
   const DogsSetter = (newDogs) => {
     setDogs(newDogs);
@@ -156,6 +167,10 @@ export const DogsProvider = ({ children }) => {
     }
   };
 
+  // const FavoritesSetter = (favDog) => {
+
+  // };
+
   if (isLoading) {
     return <div className="app">Loading...</div>;
   }
@@ -171,6 +186,10 @@ export const DogsProvider = ({ children }) => {
         hasPrev,
         searchParams,
         ParamsBreedSetter,
+        favIds,
+        setFavIds,
+        DogMatcher,
+        ClearFavorites,
       ]}
     >
       {children}

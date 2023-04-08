@@ -1,4 +1,17 @@
 .Nav {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1rem 2rem;
+
+  &-title {
+    display: flex;
+    align-items: baseline;
+    h3 {
+      margin-left: 2rem;
+    }
+  }
+  button {
+    width: 200px;
+  }
 }
