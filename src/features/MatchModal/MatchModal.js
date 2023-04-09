@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import { Modal, Button } from "../../components";
 import { useDogsContext } from "../../contexts/dogsContext";
+import { useNavigate } from "react-router";
 // import { IContact } from '../../types';
 // import './MatchModal.scss';
 
@@ -26,73 +27,25 @@ export const MatchModal = (props) => {
     setFavIds,
     DogMatcher,
     ClearFavorites,
+    match,
   ] = useDogsContext();
-  //   const [contact, setContact] = useState({
-  //     node: {
-  //       name: "",
-  //       title: "",
-  //       phone: "",
-  //       email: "",
-  //       primary: false,
-  //     },
-  //   });
+  const [matchExists, setMatchExists] = useState(false);
+  const Navigate = useNavigate();
 
-  //   const [canSendInvoice, setCanSendInvoice] = useState < boolean > false;
-  //   const inputList = [
-  //     {
-  //       label: "Full Name",
-  //       placeholder: "Name",
-  //       inputType: "text",
-  //       name: "name",
-  //     },
-  //     {
-  //       label: "Title",
-  //       placeholder: "Job Title",
-  //       inputType: "text",
-  //       name: "title",
-  //     },
-  //     {
-  //       label: "Phone",
-  //       placeholder: "Phone",
-  //       inputType: "phone",
-  //       name: "phone",
-  //     },
-  //     {
-  //       label: "Email",
-  //       placeholder: "Email",
-  //       inputType: "email",
-  //       name: "email",
-  //     },
-  //   ];
-
-  function onSubmitHandler(e) {
+  function matchMaker(e) {
     e.preventDefault();
     // props.callback({ ...contact, sendInvoices: canSendInvoice });
     DogMatcher(favIds);
+    setMatchExists(true);
+  }
+  function onSubmitHandler(e) {
+    e.preventDefault();
+    // props.callback({ ...contact, sendInvoices: canSendInvoice });
+    // DogMatcher(favIds);
+    Navigate(`/dogs/${match}`);
     props.onClose();
   }
 
-  //   function inputChangeHandler(e) {
-  //     setContact((prev) => {
-  //       return {
-  //         ...prev,
-  //         [e.target.name]: e.target.value,
-  //       };
-  //     });
-  //   }
-
-  //   function renderInputs() {
-  //     return inputList.map((input, idx) => (
-  //       <div className="inputControl" key={idx}>
-  //         <span className="text--500">{input.label}</span>
-  //         <Input
-  //           name={input.name}
-  //           onChange={inputChangeHandler}
-  //           placeholder={input.placeholder}
-  //         />
-  //       </div>
-  //     ));
-  //   }
   return (
     <Modal
       isOpen={props.isOpen}
@@ -107,9 +60,21 @@ export const MatchModal = (props) => {
         <Button raised color="light" onClick={props.onClose}>
           Go Back
         </Button>
-        <Button raised color="primary" type="submit" onClick={onSubmitHandler}>
+        <Button raised color="primary" type="submit" onClick={matchMaker}>
           Meet My Match!
         </Button>
+        {matchExists ? (
+          <Button
+            raised
+            color="primary"
+            type="submit"
+            onClick={onSubmitHandler}
+          >
+            Meet My Match!
+          </Button>
+        ) : (
+          <></>
+        )}
         {/* </form> */}
       </div>
     </Modal>

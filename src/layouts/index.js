@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { Route, Routes } from "react-router";
 import { Nav } from "../components";
-import { DogsList, DogsPage, Home, Login } from "../features";
+import { DogMatch, DogsList, DogsPage, Home, Login } from "../features";
 import { useUserContext } from "../contexts/userContext";
 import { AppRoutes } from "../routes/index";
 import { ProtectedRoute } from "../routes/ProtectedRoute";
@@ -27,6 +27,17 @@ export function AppLayout() {
               <DogsProvider>
                 <Nav />
                 <DogsPage />
+              </DogsProvider>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dogs/:id"
+          element={
+            <ProtectedRoute>
+              <DogsProvider>
+                <Nav />
+                <DogMatch />
               </DogsProvider>
             </ProtectedRoute>
           }

@@ -1,0 +1,65 @@
+.dogMatch {
+  width: 600px;
+  // border: 6px solid blue;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1rem 2rem;
+  background: #f8f3e8;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  transition: all 0.2s ease-in-out;
+  &-imgBox {
+    img {
+      width: 600px;
+      height: 600px;
+      object-fit: cover;
+      transition: all 0.2s ease-in-out;
+    }
+
+    &--favorite {
+      img {
+        width: 30px;
+        height: 30px;
+        position: fixed;
+        object-fit: fill;
+        z-index: 100;
+      }
+    }
+  }
+  h2 {
+    margin-top: 1rem;
+
+    font-weight: normal;
+    font-size: 2rem;
+    color: #4a4a7d;
+    text-align: center;
+    margin: 0;
+  }
+  &-textBox {
+    &--divider {
+      display: flex;
+      justify-content: space-between;
+      p {
+        font-size: 0.9rem;
+        color: #5e5e89;
+        text-align: center;
+        margin: 0;
+      }
+    }
+  }
+}
+.dogMatch:hover {
+  cursor: pointer;
+
+  .dogMatch-imgBox {
+    img {
+      transform: rotate(1deg);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2), 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+    #star {
+      transform: rotate(5deg);
+      box-shadow: none;
+    }
+  }
+}

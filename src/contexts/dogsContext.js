@@ -33,6 +33,7 @@ export const DogsProvider = ({ children }) => {
   const [hasPrev, setHasPrev] = useState(false);
   const [hasNext, setHasNext] = useState();
   const [favIds, setFavIds] = useState([]);
+  const [match, setMatch] = useState();
 
   useEffect(() => {
     IDGrabber();
@@ -143,6 +144,7 @@ export const DogsProvider = ({ children }) => {
   const DogMatcher = (favDogs) => {
     axios.post(`${baseURL}${dogsMatch}`, favDogs, apiHeaders).then((res) => {
       console.log(res.data.match);
+      setMatch(res.data.match);
     });
   };
   const ClearFavorites = () => {
@@ -190,6 +192,7 @@ export const DogsProvider = ({ children }) => {
         setFavIds,
         DogMatcher,
         ClearFavorites,
+        match,
       ]}
     >
       {children}
