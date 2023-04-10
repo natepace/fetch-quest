@@ -23,6 +23,20 @@ export function useDogsContext() {
   return useContext(DogContext);
 }
 
+// {
+//   "city":"Adjuntas",
+//  "bottom_left":{
+//      "lat":18.022326,
+
+//      "lon":-67.941486
+//  },
+//  "top_right":{
+//      "lat":18.541486,
+//       "lon":-67.141486
+
+//  }
+
+// }
 export const DogsProvider = ({ children }) => {
   const [searchParams, setSearchParams] = useState(apiParams);
   const [ids, setIds] = useState();

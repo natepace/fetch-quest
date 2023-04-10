@@ -8,13 +8,14 @@
 .vsc-initialized {
   margin: 0;
 }
+
 @import url("https://fonts.googleapis.com/css2?family=Underdog&display=swap");
 
 .app {
   font-family: "Underdog", cursive;
   overflow: hidden;
   // display: flex;
-  
+
   &-redpill {
     background-color: #073653;
     color: #78c475;

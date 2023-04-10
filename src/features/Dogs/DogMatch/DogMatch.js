@@ -1,6 +1,8 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useDogsContext } from "../../../contexts/dogsContext";
+import { Button } from "../../../components";
+import { Navigate, useNavigate } from "react-router";
 import { useParams } from "react-router";
 import axios from "axios";
 import "./DogMatch.scss";
@@ -33,6 +35,7 @@ export function DogMatch() {
   ] = useDogsContext();
   const [isLoading, setLoading] = useState(true);
   const matchId = useParams().id;
+  const Navigate = useNavigate();
   useEffect(() => {
     console.log(matchId);
     axios
@@ -52,13 +55,24 @@ export function DogMatch() {
     // };
   }, []);
 
+  const goBack = () => {
+    Navigate("/dogs");
+  };
+
   if (isLoading) {
     return <div className="app">Loading...</div>;
   }
   // console.log(useParams().id);
   console.log(dogs);
   return (
-    <div>
+    <div
+      className="dogMatchPage"
+      style={{ display: "flex", "justify-content": "center" }}
+    >
+      <div class="pyro">
+        <div class="before"></div>
+        <div class="after"></div>
+      </div>
       {/* dog match
       <h1>its loading your dog {dogs[0].name}!</h1> */}
       <div
@@ -69,6 +83,8 @@ export function DogMatch() {
         // }}
       >
         <div className="dogMatch-imgBox">
+          <h1>Meet your Puppy!</h1>
+          <p>if there is a person in the photo you do not get that person</p>
           {/* {favIds.some(function (item) {
           return item === dog.id;
         }) ? (
@@ -82,6 +98,12 @@ export function DogMatch() {
         </div>
 
         <h2>{dogs[0].name}</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat.
+        </p>
         <div className="dogMatch-textBox">
           <div className="dogMatch-textBox--divider">
             <p>Breed:</p>
@@ -96,6 +118,9 @@ export function DogMatch() {
             <p>{dogs[0].zip_code}</p>
           </div>
         </div>
+        <Button raised onClick={goBack}>
+          Go Back!
+        </Button>
       </div>
     </div>
   );

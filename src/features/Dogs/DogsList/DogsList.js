@@ -29,6 +29,7 @@ export function DogsList() {
       .then((res) => {
         // console.log(res.data);
         DogsSetter(res.data);
+
         setLoading(false);
       })
       .catch((err) => {
@@ -44,6 +45,7 @@ export function DogsList() {
   return (
     <div className="DogsList">
       {dogs.map((dog, idx) => {
+        console.log(dog.zip_code);
         return (
           <DogBox
             dog={dog}

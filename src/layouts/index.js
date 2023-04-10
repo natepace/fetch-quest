@@ -36,7 +36,7 @@ export function AppLayout() {
           element={
             <ProtectedRoute>
               <DogsProvider>
-                <Nav />
+                {/* <Nav /> */}
                 <DogMatch />
               </DogsProvider>
             </ProtectedRoute>

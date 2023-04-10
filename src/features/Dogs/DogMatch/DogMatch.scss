@@ -1,65 +1,211 @@
-.dogMatch {
-  width: 600px;
-  // border: 6px solid blue;
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem 1rem 2rem;
-  background: #f8f3e8;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
-  transition: all 0.2s ease-in-out;
-  &-imgBox {
-    img {
-      width: 600px;
-      height: 600px;
-      object-fit: cover;
-      transition: all 0.2s ease-in-out;
+.dogMatchPage {
+  $particles: 50;
+  $width: 500;
+  $height: 500;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  // Create the explosion...
+  $box-shadow: ();
+  $box-shadow2: ();
+  @for $i from 0 through $particles {
+    $box-shadow: $box-shadow,
+      random($width)-$width /
+        2 +
+        px
+        random($height)-$height /
+        1.2 +
+        px
+        hsl(random(360), 100, 50);
+    $box-shadow2: $box-shadow2, 0 0 #fff;
+  }
+  @mixin keyframes($animationName) {
+    @-webkit-keyframes #{$animationName} {
+      @content;
     }
 
-    &--favorite {
-      img {
-        width: 30px;
-        height: 30px;
-        position: fixed;
-        object-fit: fill;
-        z-index: 100;
-      }
+    @-moz-keyframes #{$animationName} {
+      @content;
+    }
+
+    @-o-keyframes #{$animationName} {
+      @content;
+    }
+
+    @-ms-keyframes #{$animationName} {
+      @content;
+    }
+
+    @keyframes #{$animationName} {
+      @content;
     }
   }
-  h2 {
-    margin-top: 1rem;
 
-    font-weight: normal;
-    font-size: 2rem;
-    color: #4a4a7d;
+  @mixin animation-delay($settings) {
+    -moz-animation-delay: $settings;
+    -webkit-animation-delay: $settings;
+    -o-animation-delay: $settings;
+    -ms-animation-delay: $settings;
+    animation-delay: $settings;
+  }
+
+  @mixin animation-duration($settings) {
+    -moz-animation-duration: $settings;
+    -webkit-animation-duration: $settings;
+    -o-animation-duration: $settings;
+    -ms-animation-duration: $settings;
+    animation-duration: $settings;
+  }
+
+  @mixin animation($settings) {
+    -moz-animation: $settings;
+    -webkit-animation: $settings;
+    -o-animation: $settings;
+    -ms-animation: $settings;
+    animation: $settings;
+  }
+
+  @mixin transform($settings) {
+    transform: $settings;
+    -moz-transform: $settings;
+    -webkit-transform: $settings;
+    -o-transform: $settings;
+    -ms-transform: $settings;
+  }
+
+  // body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(#0007, #0000), #123;
+  overflow: hidden;
+  // }
+
+  .pyro > .before,
+  .pyro > .after {
+    // overflow: hidden;
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    box-shadow: $box-shadow2;
+    @include animation(
+      (
+        1s bang ease-out infinite backwards,
+        5s gravity ease-in infinite backwards,
+        5s position linear infinite backwards
+      )
+    );
+  }
+
+  .pyro > .after {
+    @include animation-delay((0.5s, 0.5s, 0.5s));
+    @include animation-duration((1.25s, 5.25s, 6.25s));
+  }
+
+  @include keyframes(bang) {
+    to {
+      box-shadow: $box-shadow;
+    }
+  }
+
+  @include keyframes(gravity) {
+    to {
+      @include transform(translateY(50px));
+      opacity: 0;
+    }
+  }
+  align-items: center;
+  @include keyframes(position) {
+    0%,
+    19.9% {
+      margin-top: 0%;
+      margin-left: 0%;
+    }
+    20%,
+    40.9% {
+      margin-top: 10%;
+      margin-left: 35%;
+    }
+    // 40%,
+    // 50% {
+    //   margin-top: 15%;
+    //   margin-left: 20%;
+    // }
+    // 60%,
+    // 79.9% {
+    //   margin-top: 100%;
+    //   margin-left: 20%;
+    // }
+    // 80%,
+    // 99.9% {
+    //   margin-top: 90%;
+    //   margin-left: 35%;
+    // }
+  }
+
+  .dogMatch {
     text-align: center;
-    margin: 0;
-  }
-  &-textBox {
-    &--divider {
-      display: flex;
-      justify-content: space-between;
-      p {
-        font-size: 0.9rem;
-        color: #5e5e89;
-        text-align: center;
-        margin: 0;
+    z-index: 101;
+    width: 600px;
+    // border: 6px solid blue;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1rem 2rem;
+    background: #f8f3e8;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    transition: all 0.2s ease-in-out;
+    &-imgBox {
+      img {
+        width: 600px;
+        height: 600px;
+        object-fit: cover;
+        transition: all 0.2s ease-in-out;
+      }
+
+      &--favorite {
+        img {
+          width: 30px;
+          height: 30px;
+          position: fixed;
+          object-fit: fill;
+          z-index: 100;
+        }
       }
     }
+    h2 {
+      margin-top: 1rem;
+
+      font-weight: normal;
+      font-size: 2rem;
+      color: #4a4a7d;
+      text-align: center;
+      margin: 0;
+    }
+    &-textBox {
+      &--divider {
+        display: flex;
+        justify-content: space-between;
+        p {
+          font-size: 0.9rem;
+          color: #5e5e89;
+          text-align: center;
+          margin: 0;
+        }
+      }
+    }
+    button {
+      margin: 2rem 0;
+    }
   }
-}
-.dogMatch:hover {
-  cursor: pointer;
+  // .dogMatch:hover {
 
   .dogMatch-imgBox {
     img {
-      transform: rotate(1deg);
+      // transform: rotate(1deg);
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2), 0 0 10px rgba(0, 0, 0, 0.2);
     }
-    #star {
-      transform: rotate(5deg);
-      box-shadow: none;
-    }
   }
+  // }
 }
