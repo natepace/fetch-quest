@@ -10,8 +10,7 @@ import "./DogsPage.scss";
 
 const baseURL = "https://frontend-take-home-service.fetch.com";
 const dogsBreeds = "/dogs/breeds";
-const fetchKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NzgzMDU2MTF9.Ky49nXH6qgHJQ0CBsZGYsP7_Is2am3u5j3RAdEl457s";
+const fetchKey = process.env.apiFetchKey;
 
 const apiHeaders = {
   headers: {
@@ -26,6 +25,8 @@ export function DogsPage() {
   const [breeds, setBreeds] = useState();
   const [isLoading, setLoading] = useState(true);
   const [option, setOption] = useState("all");
+  const [nearMe, setNearMe] = useState(false);
+  const [selectedArea, setSelectedArea] = useState(false);
   const [toggleMatchModal, setToggleMatchModal] = useState(false);
   const [
     dogs,
@@ -41,6 +42,13 @@ export function DogsPage() {
     setFavIds,
     DogMatcher,
     ClearFavorites,
+    match,
+    searchNearby,
+    location,
+    nearIds,
+    IdSetter,
+    setNearIds,
+    setIds,
   ] = useDogsContext();
   useEffect(() => {
     axios
@@ -67,6 +75,17 @@ export function DogsPage() {
       ParamsBreedSetter({ breed: e.target.value });
     }
   };
+  const setGeoBox = (e) => {
+    // console.log(e.target.value);
+    e.preventDefault();
+    setNearIds([]);
+    // setIds([]);
+    setNearMe(true);
+
+    // DistanceSetter(e.target.value);
+
+    searchNearby(location, e.target.value);
+  };
 
   if (isLoading) {
     return <div className="app">Loading...</div>;
@@ -91,6 +110,39 @@ export function DogsPage() {
           })}
         </select>
 
+        {nearMe ? (
+          <></>
+        ) : (
+          <select onChange={setGeoBox}>
+            <option value="" selected disabled hidden>
+              Select Area
+            </option>
+            <option value={25}>25 miles</option>
+            <option value={50}>50 miles</option>
+            <option value={75}>75 miles</option>
+            {/* <option value={100}>100 miles</option>  */}
+            {/* <option value={200}>200 miles</option> */}
+          </select>
+        )}
+
+        {/* <Button raised onClick={setGeoBox}>
+          Search This Area
+        </Button> */}
+        {nearMe ? (
+          <button
+            onClick={() => {
+              IdSetter(nearIds);
+              setNearIds([]);
+              setNearMe(false);
+            }}
+          >
+            Filter
+          </button>
+        ) : (
+          <></>
+        )}
+      </div>
+      <div className="dogsPage-filters">
         <Button
           raised
           onClick={() => {
@@ -109,6 +161,7 @@ export function DogsPage() {
           Find My Match!
         </Button>
       </div>
+
       <div className="dogsPage-pageButtonsWrapper">
         <div className="dogsPage-pageButtons">
           {hasPrev ? (

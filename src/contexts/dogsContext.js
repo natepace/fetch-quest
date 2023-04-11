@@ -1,12 +1,13 @@
 import * as React from "react";
 import { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
-
+import { getGeoBox } from "../utils/geoBox";
+const geolocation = require("geolocation");
 const baseURL = "https://frontend-take-home-service.fetch.com";
 const dogsSearch = "/dogs/search";
+const locationsSearch = "/locations/search";
 const dogsMatch = "/dogs/match";
-const fetchKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NzgzMDU2MTF9.Ky49nXH6qgHJQ0CBsZGYsP7_Is2am3u5j3RAdEl457s";
+const fetchKey = process.env.apiFetchKey;
 
 const apiHeaders = {
   headers: {
@@ -23,20 +24,6 @@ export function useDogsContext() {
   return useContext(DogContext);
 }
 
-// {
-//   "city":"Adjuntas",
-//  "bottom_left":{
-//      "lat":18.022326,
-
-//      "lon":-67.941486
-//  },
-//  "top_right":{
-//      "lat":18.541486,
-//       "lon":-67.141486
-
-//  }
-
-// }
 export const DogsProvider = ({ children }) => {
   const [searchParams, setSearchParams] = useState(apiParams);
   const [ids, setIds] = useState();
@@ -48,9 +35,22 @@ export const DogsProvider = ({ children }) => {
   const [hasNext, setHasNext] = useState();
   const [favIds, setFavIds] = useState([]);
   const [match, setMatch] = useState();
+  const [distance, setDistance] = useState();
+  const [location, setLocation] = useState();
+  const [dogLocations, setDogLocations] = useState();
+  const [nearIds, setNearIds] = useState([]);
 
   useEffect(() => {
     IDGrabber();
+    geolocation.getCurrentPosition(function (err, position) {
+      if (err) throw err;
+      console.log(position);
+      setLocation({
+        ...location,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+    });
   }, [searchParams]);
 
   const IDGrabber = () => {
@@ -161,6 +161,74 @@ export const DogsProvider = ({ children }) => {
       setMatch(res.data.match);
     });
   };
+
+  const searchNearby = (location, num) => {
+    const [latNorth, lonWest, latSouth, lonEast] = getGeoBox(
+      location.latitude,
+      location.longitude,
+      num
+    );
+    console.log(latNorth, lonWest, latSouth, lonEast);
+    const boxParams = {
+      geoBoundingBox: {
+        bottom_left: {
+          lat: latSouth,
+          lon: lonWest,
+        },
+        top_right: {
+          lat: latNorth,
+          lon: lonEast,
+        },
+      },
+    };
+    // console.log(boxParams);
+    axios
+      .post(`${baseURL}${locationsSearch}`, boxParams, apiHeaders)
+      .then((res) => {
+        console.log(res.data);
+
+        DogLocationIdMapper(res.data.results);
+      });
+  };
+  const DogLocationIdMapper = (locations) => {
+    // console.log(locations);
+    setLoading(true);
+
+    locations.forEach((location) => {
+      axios
+        .get(`https://frontend-take-home-service.fetch.com/dogs/search`, {
+          headers: {
+            "fetch-api-key": fetchKey,
+          },
+
+          withCredentials: true,
+          params: { zipCodes: location.zip_code },
+        })
+        .then((res) => {
+          if (res.data.resultIds.length > 0) {
+            // console.log(res.data.resultIds);
+            res.data.resultIds.forEach((el) => {
+              console.log(el);
+
+              if (!nearIds.includes(el)) {
+                let tempArr = nearIds;
+                tempArr.push(el);
+
+                setNearIds([...tempArr]);
+              }
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    });
+
+    setLoading(false);
+  };
+  const IdSetter = (arr) => {
+    setIds(arr);
+  };
   const ClearFavorites = () => {
     setFavIds([]);
   };
@@ -183,13 +251,10 @@ export const DogsProvider = ({ children }) => {
     }
   };
 
-  // const FavoritesSetter = (favDog) => {
-
-  // };
-
   if (isLoading) {
     return <div className="app">Loading...</div>;
   }
+
   return (
     <DogContext.Provider
       value={[
@@ -207,6 +272,12 @@ export const DogsProvider = ({ children }) => {
         DogMatcher,
         ClearFavorites,
         match,
+        searchNearby,
+        location,
+        nearIds,
+        IdSetter,
+        setNearIds,
+        setIds,
       ]}
     >
       {children}

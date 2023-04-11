@@ -6,8 +6,7 @@ import { useDogsContext } from "../../../contexts/dogsContext";
 import { DogBox } from "../DogBox";
 import "./DogsList.scss";
 
-const fetchKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NzgzMDU2MTF9.Ky49nXH6qgHJQ0CBsZGYsP7_Is2am3u5j3RAdEl457s";
+const fetchKey = process.env.apiFetchKey;
 const headersOnly = {
   headers: {
     "fetch-api-key": fetchKey,
@@ -27,8 +26,9 @@ export function DogsList() {
         headersOnly
       )
       .then((res) => {
-        // console.log(res.data);
-        DogsSetter(res.data);
+        console.log(res);
+        let sorted = res.data.sort((a, b) => a.breed.localeCompare(b.breed));
+        DogsSetter(sorted);
 
         setLoading(false);
       })
@@ -36,7 +36,7 @@ export function DogsList() {
         console.log(err.message);
       });
     // };
-  }, []);
+  }, [ids]);
 
   if (isLoading) {
     return <div className="app">Loading...</div>;
@@ -45,7 +45,7 @@ export function DogsList() {
   return (
     <div className="DogsList">
       {dogs.map((dog, idx) => {
-        console.log(dog.zip_code);
+        // console.log(dog.zip_code);
         return (
           <DogBox
             dog={dog}
