@@ -84,7 +84,7 @@ export function DogsList() {
       .catch((err) => {
         console.log(err.message);
       });
-    // };
+   
   }, [ids]);
 
   if (isLoading) {

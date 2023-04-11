@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button } from "../Button";
+
 import "./Modal.scss";
 
 export function Modal(props) {
@@ -10,11 +10,11 @@ export function Modal(props) {
           <div
             className={`modal ${props.className}`}
             onClick={() => {
-              // if (props.backdropClose && props.onClose) {
+             
               props.onClose();
-              // }
+             
             }}
-            // data-testid={props.testId && `${props.testId}-overlay`}
+           
           >
             <div
               className="modal__content"
@@ -22,22 +22,9 @@ export function Modal(props) {
               onClick={(e) => {
                 e.stopPropagation();
               }}
-              // data-testid={props.testId}
+              
             >
-              {/* {props.closeButton && (
-                <Button
-                  className="modal__close"
-                  icon={true}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (props.onClose) {
-                      props.onClose();
-                    }
-                  }}
-                >
-                  <span className="material-icons">close</span>
-                </Button>
-              )} */}
+             
               {props.children}
             </div>
           </div>
@@ -47,8 +34,4 @@ export function Modal(props) {
   );
 }
 
-// Modal.defaultProps = {
-//   backdropClose: true,
-//   closeButton: true,
-//   className: "",
-// };
+

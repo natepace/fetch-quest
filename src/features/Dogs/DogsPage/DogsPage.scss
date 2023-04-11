@@ -9,7 +9,7 @@
   max-width: 1200px;
   min-width: 360px;
   &-container {
-    // max-width: 1270px;
+    
     display: flex;
     
     flex-direction: column;
@@ -27,7 +27,7 @@
   &-header {
     display: flex;
     justify-content: center;
-    // flex-direction: column;
+    
     align-content: center;
     margin: 2rem;
     text-align: center;
@@ -35,7 +35,7 @@
   &-filters {
     display: flex;
     justify-content: space-between;
-    // flex-direction: column;
+    
 
     margin: 0 2rem 2rem 2rem;
     select {
@@ -72,7 +72,7 @@ height: 48px;
     display: flex;
     justify-content: space-between;
     button {
-      // height: 50px;
+      
       width: 150px;
     }
   }

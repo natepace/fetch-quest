@@ -51,7 +51,7 @@ export function DogMatch() {
       .catch((err) => {
         console.log(err.message);
       });
-    // };
+    
   }, []);
 
   const goBack = () => {
