@@ -1,5 +1,7 @@
 # Welcome to Nate Pace's Fetch-Quest!
 
+# Deployed Web app through vercel: https://fetch-quest.vercel.app/
+
 ## To start, run npm install
 
 ## add the .env with the form of "fetch-api-key" = (apikey)
