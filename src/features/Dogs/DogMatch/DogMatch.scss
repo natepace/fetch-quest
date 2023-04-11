@@ -195,3 +195,21 @@
   }
   
 }
+
+@media screen and (max-width:600px){
+ .dogMatchPage{
+  .pyro{
+    display: none;
+  }
+  .dogMatch {
+    width: 260px;
+    &-imgBox {
+      img {
+        width: 260px;
+        height: 260px; 
+      }
+    }
+  }
+ }
+  
+      }

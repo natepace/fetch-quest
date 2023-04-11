@@ -77,3 +77,40 @@ height: 48px;
     }
   }
 }
+@media screen and (max-width:600px){
+ .dogsPage{
+  font-size: 10px;
+  &-filters {
+    display: flex;
+    justify-content: space-between;
+    
+
+    margin: 0 1rem 2rem 1rem;
+    select {
+      background-color: #2f80ed;
+      color: white;
+      padding: 0 12px;
+
+      max-width: 120px;
+      border: none;
+      border-radius: 8px;
+      font-size: 10px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+height: 48px;
+      
+    }
+    button {
+      max-width: 120px;
+      height: 48px;
+      margin: 0;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+      font-size: 10px;
+    }
+    &--labelFilter{
+      display: flex;
+      flex-direction: column;
+    }
+  }
+ }
+
+    }

@@ -38,3 +38,20 @@
     justify-content: center;
   }
 }
+@media screen and (max-width:500px){
+.home{
+  background-image: none;
+  &-title{
+    display: none;
+  }
+  &-loginBox{
+    height: 800px;
+    position: absolute;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
+
+  }
+}
+}

@@ -21,3 +21,11 @@
     width: 200px;
   }
 }
+@media screen and (max-width:500px){
+.Nav{
+  justify-content: center;
+  &-title{
+    display: none;
+  }
+}
+  }

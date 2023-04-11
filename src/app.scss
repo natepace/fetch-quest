@@ -8,22 +8,5 @@
 .app {
   font-family: "Underdog", cursive;
   overflow: hidden;
- 
-
-  &-redpill {
-    background-color: #073653;
-    color: #78c475;
-    button {
-      background-color: #073653;
-      color: #78c475;
-    }
-  }
-  &-bluepill {
-    background-color: #fff9ca;
-    color: #ffb4b4;
-    button {
-      background-color: #fff9ca;
-      color: #ffb4b4;
-    }
-  }
 }
+
