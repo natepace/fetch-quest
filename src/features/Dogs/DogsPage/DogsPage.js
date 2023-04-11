@@ -27,6 +27,7 @@ export function DogsPage() {
   const [option, setOption] = useState("all");
   const [nearMe, setNearMe] = useState(false);
   const [selectedArea, setSelectedArea] = useState(false);
+  const [seeingLocal, setSeeingLocal] = useState(false)
   const [toggleMatchModal, setToggleMatchModal] = useState(false);
   const [
     dogs,
@@ -49,6 +50,9 @@ export function DogsPage() {
     IdSetter,
     setNearIds,
     setIds,
+    hasLocation,
+    sortingBy,
+    SetSorting
   ] = useDogsContext();
   useEffect(() => {
     axios
@@ -67,7 +71,7 @@ export function DogsPage() {
 
   const selectChange = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
+    
     if (e.target.value === "all") {
       setOption("all");
       ParamsBreedSetter("all");
@@ -75,22 +79,31 @@ export function DogsPage() {
       ParamsBreedSetter({ breed: e.target.value });
     }
   };
+  const sortSelectChange = (e) => {
+    e.preventDefault()
+    SetSorting(e.target.value)
+  }
   const setGeoBox = (e) => {
-    // console.log(e.target.value);
+    
     e.preventDefault();
     setNearIds([]);
-    // setIds([]);
+    
     setNearMe(true);
 
-    // DistanceSetter(e.target.value);
+   
 
     searchNearby(location, e.target.value);
   };
+const goToNext = () => {
 
+NextPage()
+}
   if (isLoading) {
-    return <div className="app">Loading...</div>;
+    return <></>;
   }
+  
   return (
+    <div className="dogsPageWrapper">
     <div className="dogsPage">
       <div className="dogsPage-header">
         <div>
@@ -99,6 +112,8 @@ export function DogsPage() {
         </div>
       </div>
       <div className="dogsPage-filters">
+        <div className="dogsPage-filters--labelFilter">
+            <label>Choose a Breed</label>
         <select onChange={selectChange} value={searchParams.breeds}>
           <option value={"all"}>All Breeds</option>
           {breeds.map((breed, idx) => {
@@ -109,10 +124,43 @@ export function DogsPage() {
             );
           })}
         </select>
-
+        </div>
+        {!seeingLocal && (
+          <div className="dogsPage-filters--labelFilter">
+          <label>Sort Other Ways</label>
+        <select onChange={sortSelectChange} >
+        <option value="" selected disabled hidden>
+              Sort by
+            </option>
+          <option value={"name_desc"}>Name, desc..</option>
+          <option value={"name_asc"}>Name, asc..</option>
+          <option value={"age_desc"}>Age, desc..</option>
+          <option value={"age_asc"}>Age, asc..</option>
+          
+          
+        </select>
+        </div>
+        )}
+        
+        {seeingLocal && (
+           <div className="dogsPage-filters--labelFilter">
+           <label>See All Dogs</label>
+          <Button raised
+            onClick={() => {
+             
+              setOption("all");
+              ParamsBreedSetter("all");
+            }}
+          >
+            Go Back
+          </Button>
+          </div>
+        ) }
         {nearMe ? (
           <></>
         ) : (
+          <div className="dogsPage-filters--labelFilter">
+            <label>Find Dogs in Your Area</label>
           <select onChange={setGeoBox}>
             <option value="" selected disabled hidden>
               Select Area
@@ -120,27 +168,30 @@ export function DogsPage() {
             <option value={25}>25 miles</option>
             <option value={50}>50 miles</option>
             <option value={75}>75 miles</option>
-            {/* <option value={100}>100 miles</option>  */}
-            {/* <option value={200}>200 miles</option> */}
+           
           </select>
+          </div>
         )}
 
-        {/* <Button raised onClick={setGeoBox}>
-          Search This Area
-        </Button> */}
+        
         {nearMe ? (
-          <button
+           <div className="dogsPage-filters--labelFilter">
+           <label>Find Dogs in Your Area</label>
+          <Button raised
             onClick={() => {
               IdSetter(nearIds);
               setNearIds([]);
               setNearMe(false);
+              setSeeingLocal(true)
             }}
           >
-            Filter
-          </button>
+            Find Dogs Near Me!
+          </Button>
+          </div>
         ) : (
           <></>
         )}
+    
       </div>
       <div className="dogsPage-filters">
         <Button
@@ -151,19 +202,31 @@ export function DogsPage() {
         >
           Clear Favorites
         </Button>
-        <Button
+        {favIds.length > 0 && (
+           <Button
           raised
-          // onClick={() => {
-          //   DogMatcher(favIds);
-          // }}
+          
           onClick={() => setToggleMatchModal(true)}
         >
           Find My Match!
         </Button>
+        )}
+        {favIds.length === 0 && (
+           <Button
+          raised
+          // disabled
+          
+         
+        >
+          Select Favorites!
+        </Button>
+        )}
+       
       </div>
 
       <div className="dogsPage-pageButtonsWrapper">
-        <div className="dogsPage-pageButtons">
+        {!seeingLocal && (
+            <div className="dogsPage-pageButtons">
           {hasPrev ? (
             <Button raised onClick={PrevPage}>
               PREV PAGE
@@ -172,20 +235,25 @@ export function DogsPage() {
             <Button raised>PREV PAGE</Button>
           )}
           {hasNext ? (
-            <Button raised onClick={NextPage}>
+            <Button raised onClick={goToNext}>
               NEXT PAGE
             </Button>
           ) : (
             <Button raised>NEXT PAGE</Button>
           )}
         </div>
+        )}
+      
       </div>
 
       <div className="dogsPage-container">
+        <h3>Click on a card below to add it to your favorites!</h3>
+        <h4>When you are done, select your dog by clicking Find My Match above!</h4>
         <DogsList />
       </div>
       <div className="dogsPage-pageButtonsWrapper">
-        <div className="dogsPage-pageButtons">
+      {!seeingLocal && (
+            <div className="dogsPage-pageButtons">
           {hasPrev ? (
             <Button raised onClick={PrevPage}>
               PREV PAGE
@@ -194,13 +262,14 @@ export function DogsPage() {
             <Button raised>PREV PAGE</Button>
           )}
           {hasNext ? (
-            <Button raised onClick={NextPage}>
+            <Button raised onClick={goToNext}>
               NEXT PAGE
             </Button>
           ) : (
             <Button raised>NEXT PAGE</Button>
           )}
         </div>
+        )}
       </div>
       <MatchModal
         isOpen={toggleMatchModal}
@@ -208,30 +277,9 @@ export function DogsPage() {
           setToggleMatchModal(false);
         }}
 
-        // callback={(val) => {
-        //   createAccountContact({
-        //     variables: {
-        //       id: accountId,
-        //       updates: {
-        //         name: val.name,
-        //         title: val.title,
-        //         email: val.email,
-        //         phone: val.phone,
-        //         primary: val.primary,
-        //         sendInvoices: val.sendInvoices,
-        //       },
-        //     },
-        //     refetchQueries: [
-        //       {
-        //         query: ACCOUNT_QUERY,
-        //         variables: {
-        //           id: accountId,
-        //         },
-        //       },
-        //     ],
-        //   });
-        // }}
+     
       />
+    </div>
     </div>
   );
 }

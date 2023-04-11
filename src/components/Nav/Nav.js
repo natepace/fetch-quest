@@ -7,17 +7,17 @@ export function Nav() {
   const [user, userToken, updateUser, logOutUser] = useUserContext();
   const Navigate = useNavigate();
   const Logout = () => {
-    // const navTime = await logOutUser();
-    // console.log(navTime);
+    
     localStorage.removeItem("fetch-access-token");
     updateUser(null);
-    // navigate('/login');
+    
 
     Navigate("/login");
   };
   return (
+    <div className="NavWrapper">
     <div className="Nav">
-      {/* <div> */}
+      
       <div className="Nav-title">
         <h1>Fetch Quest</h1>
         <h3>. . . a quest to impress fetch</h3>
@@ -26,7 +26,8 @@ export function Nav() {
       <Button raised onClick={Logout}>
         logout
       </Button>
-      {/* </div> */}
+      
+    </div>
     </div>
   );
 }

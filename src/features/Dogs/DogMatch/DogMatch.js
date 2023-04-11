@@ -36,7 +36,7 @@ export function DogMatch() {
   const matchId = useParams().id;
   const Navigate = useNavigate();
   useEffect(() => {
-    console.log(matchId);
+    
     axios
       .post(
         `https://frontend-take-home-service.fetch.com/dogs`,
@@ -59,10 +59,10 @@ export function DogMatch() {
   };
 
   if (isLoading) {
-    return <div className="app">Loading...</div>;
+    return <></>;
   }
-  // console.log(useParams().id);
-  console.log(dogs);
+ 
+  
   return (
     <div
       className="dogMatchPage"
@@ -72,27 +72,15 @@ export function DogMatch() {
         <div class="before"></div>
         <div class="after"></div>
       </div>
-      {/* dog match
-      <h1>its loading your dog {dogs[0].name}!</h1> */}
+      
       <div
         className="dogMatch"
-        // style={{ transform: `${randomRotate()}` }}
-        // onClick={() => {
-        //   favSetter(dog.id);
-        // }}
+       
       >
         <div className="dogMatch-imgBox">
           <h1>Meet your Puppy!</h1>
           <p>if there is a person in the photo you do not get that person</p>
-          {/* {favIds.some(function (item) {
-          return item === dog.id;
-        }) ? (
-          <div className="dogMatch-imgBox--favorite">
-            <img src={starImg} id="star" />
-          </div>
-        ) : (
-          <></>
-        )} */}
+     
           <img src={dogs[0].img} alt="dog" />
         </div>
 

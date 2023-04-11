@@ -37,26 +37,28 @@ export const DogsProvider = ({ children }) => {
   const [match, setMatch] = useState();
   const [distance, setDistance] = useState();
   const [location, setLocation] = useState();
+  const [hasLocation,setHasLocation]=useState()
   const [dogLocations, setDogLocations] = useState();
   const [nearIds, setNearIds] = useState([]);
+  const [sortingBy, setSortingBy] = useState("name_desc")
 
   useEffect(() => {
     IDGrabber();
     geolocation.getCurrentPosition(function (err, position) {
-      if (err) throw err;
-      console.log(position);
+      if (err) {
+        setHasLocation(false)}
+      
       setLocation({
         ...location,
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
       });
     });
-  }, [searchParams]);
+  }, [searchParams,sortingBy]);
 
   const IDGrabber = () => {
     setLoading(true);
-    console.log(searchParams);
-    console.log(ids);
+    
     axios
       .get(
         `https://frontend-take-home-service.fetch.com/dogs/search`,
@@ -69,19 +71,18 @@ export const DogsProvider = ({ children }) => {
           params: searchParams,
         }
 
-        // apiHeaders,
-        // searchParams
+        
       )
       .then((res) => {
-        // console.log(res.data);
+        
 
         setIds(res.data.resultIds);
-        console.log(res.data.resultIds);
+       
         setNext(res.data.next);
         if (res.data.next) {
           setHasNext(true);
         }
-        // console.log(ids);
+       
         setLoading(false);
       })
       .catch((err) => {
@@ -100,12 +101,13 @@ export const DogsProvider = ({ children }) => {
         searchParams
       )
       .then((res) => {
-        console.log(res.data);
+        
         if (!res.data.prev) {
-          console.log("null");
+          
+          setPrev(false)
         }
         if (res.data.next) {
-          // console.log("null");
+          
           setNext(res.data.next);
         }
         if (!res.data.next) {
@@ -117,7 +119,7 @@ export const DogsProvider = ({ children }) => {
         setIds(res.data.resultIds);
 
         setPrev(res.data.prev);
-        console.log(hasPrev);
+        
         setLoading(false);
       })
       .catch((err) => {
@@ -134,9 +136,9 @@ export const DogsProvider = ({ children }) => {
         searchParams
       )
       .then((res) => {
-        console.log(res.data);
+       
         if (res.data.prev) {
-          // console.log("null");
+         
           setPrev(res.data.prev);
         }
         if (!res.data.prev) {
@@ -147,8 +149,8 @@ export const DogsProvider = ({ children }) => {
         }
         setIds(res.data.resultIds);
         setNext(res.data.next);
-        // setPrev(res.data.prev);
-        console.log(hasPrev);
+       
+        
         setLoading(false);
       })
       .catch((err) => {
@@ -157,7 +159,7 @@ export const DogsProvider = ({ children }) => {
   };
   const DogMatcher = (favDogs) => {
     axios.post(`${baseURL}${dogsMatch}`, favDogs, apiHeaders).then((res) => {
-      console.log(res.data.match);
+     
       setMatch(res.data.match);
     });
   };
@@ -168,7 +170,7 @@ export const DogsProvider = ({ children }) => {
       location.longitude,
       num
     );
-    console.log(latNorth, lonWest, latSouth, lonEast);
+    
     const boxParams = {
       geoBoundingBox: {
         bottom_left: {
@@ -181,17 +183,17 @@ export const DogsProvider = ({ children }) => {
         },
       },
     };
-    // console.log(boxParams);
+    
     axios
       .post(`${baseURL}${locationsSearch}`, boxParams, apiHeaders)
       .then((res) => {
-        console.log(res.data);
+        
 
         DogLocationIdMapper(res.data.results);
       });
   };
   const DogLocationIdMapper = (locations) => {
-    // console.log(locations);
+    
     setLoading(true);
 
     locations.forEach((location) => {
@@ -206,9 +208,9 @@ export const DogsProvider = ({ children }) => {
         })
         .then((res) => {
           if (res.data.resultIds.length > 0) {
-            // console.log(res.data.resultIds);
+          
             res.data.resultIds.forEach((el) => {
-              console.log(el);
+            
 
               if (!nearIds.includes(el)) {
                 let tempArr = nearIds;
@@ -238,21 +240,24 @@ export const DogsProvider = ({ children }) => {
   };
 
   const ParamsBreedSetter = (newParams) => {
-    console.log(newParams);
+    
     if (newParams === "all") {
       setSearchParams({});
     } else {
-      console.log(searchParams);
+      
       setLoading(true);
       searchParams.breeds = newParams.breed;
       setSearchParams({ ...searchParams });
-      console.log(searchParams);
+      
       setLoading(false);
     }
   };
 
+  const SetSorting = (sorting) => {
+    setSortingBy(sorting)
+  }
   if (isLoading) {
-    return <div className="app">Loading...</div>;
+    return <></>;
   }
 
   return (
@@ -278,6 +283,9 @@ export const DogsProvider = ({ children }) => {
         IdSetter,
         setNearIds,
         setIds,
+        hasLocation,
+        sortingBy,
+        SetSorting
       ]}
     >
       {children}

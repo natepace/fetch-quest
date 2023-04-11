@@ -1,4 +1,10 @@
+.NavWrapper{
+  display: flex;
+  justify-content: center;
+
+}
 .Nav {
+  width: 1200px;
   display: flex;
   justify-content: space-between;
   align-items: baseline;

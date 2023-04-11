@@ -15,7 +15,31 @@ const headersOnly = {
   withCredentials: true,
 };
 export function DogsList() {
-  const [dogs, DogsSetter, ids] = useDogsContext();
+  const [
+    dogs,
+    DogsSetter,
+    ids,
+    NextPage,
+    PrevPage,
+    hasNext,
+    hasPrev,
+    searchParams,
+    ParamsBreedSetter,
+    favIds,
+    setFavIds,
+    DogMatcher,
+    ClearFavorites,
+    match,
+    searchNearby,
+    location,
+    nearIds,
+    IdSetter,
+    setNearIds,
+    setIds,
+    hasLocation,
+    sortingBy,
+    setSortingBy,
+  ] = useDogsContext();
   const [isLoading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState([]);
   useEffect(() => {
@@ -26,11 +50,36 @@ export function DogsList() {
         headersOnly
       )
       .then((res) => {
-        console.log(res);
-        let sorted = res.data.sort((a, b) => a.breed.localeCompare(b.breed));
-        DogsSetter(sorted);
-
+        
+        
+        if(sortingBy==="name_desc"){
+          let sorted = res.data.sort((a, b) => a.name.localeCompare(b.name)); 
+          DogsSetter(sorted);
+          setLoading(false);
+        }
+        else if(sortingBy==="name_asc"){
+          let sorted = res.data.sort((a, b) => a.name.localeCompare(b.name)); 
+          let reversed = sorted.reverse()
+          DogsSetter(reversed);
+          setLoading(false);
+        }
+        else if(sortingBy==="age_desc"){
+          let sorted = res.data.sort((a, b) =>b.age-a.age); 
+          DogsSetter(sorted);
+          setLoading(false);
+        }
+        else if(sortingBy==="age_asc"){
+          let sorted = res.data.sort((a, b) =>a.age-b.age); 
+          DogsSetter(sorted);
+          setLoading(false);
+        }
+        else{
+        DogsSetter(res.data)
         setLoading(false);
+        }
+       
+
+       
       })
       .catch((err) => {
         console.log(err.message);
@@ -39,13 +88,13 @@ export function DogsList() {
   }, [ids]);
 
   if (isLoading) {
-    return <div className="app">Loading...</div>;
+    return <div className="app" style={{"text-align":"center"}}><h3>Loading...</h3></div>;
   }
 
   return (
     <div className="DogsList">
       {dogs.map((dog, idx) => {
-        // console.log(dog.zip_code);
+        
         return (
           <DogBox
             dog={dog}

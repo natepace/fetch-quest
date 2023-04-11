@@ -1,10 +1,10 @@
-//login
+
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useUserContext } from "../../../../contexts/userContext";
 import axios from "axios";
 import { useNavigate } from "react-router";
-// import axiosWithAuth from "../../../../utils/axioswithauth";
+
 import { Container, Button } from "../../../../components";
 import "./Login.scss";
 export function Login() {
@@ -20,9 +20,9 @@ export function Login() {
     localStorage.removeItem("fetch-access-token");
     updateUser(null);
   }, []);
-  console.log(user);
+  
   const handleChange = (e) => {
-    // e.preventDefault();
+    
     const { name, value } = e.target;
     setLocalUser((prev) => {
       return {
@@ -35,7 +35,7 @@ export function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const navTime = await updateUser(localUser);
-    console.log(navTime);
+    
 
     Navigate("/dogs");
   };
@@ -47,7 +47,7 @@ export function Login() {
             <div className="login-loginElement">
               <h2>Welcome to Fetch Quest</h2>
             </div>
-            {/* <p className="login-loginElement">My Quest to Impress Fetch</p> */}
+            
             <div className="login-loginElement">
               <input
                 placeholder="Name"

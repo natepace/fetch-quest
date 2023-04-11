@@ -29,7 +29,7 @@ export const UserProvider = ({ children }) => {
     if (newUser === null) {
       setUser(newUser);
       setUserToken(false);
-      console.log("logged out");
+      
       return;
     } else {
       const response = await axios.post(
@@ -39,8 +39,7 @@ export const UserProvider = ({ children }) => {
       );
       setUser(newUser);
       setUserToken(true);
-      console.log(user);
-      console.log(response);
+     
       return response.data;
     }
   };

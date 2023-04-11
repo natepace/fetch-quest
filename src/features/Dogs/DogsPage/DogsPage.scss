@@ -1,10 +1,28 @@
+.dogsPageWrapper{
+  display: flex;
+  justify-content: center;
+}
+
 .dogsPage {
   display: flex;
   flex-direction: column;
+  max-width: 1200px;
+  min-width: 360px;
   &-container {
     // max-width: 1270px;
     display: flex;
+    
+    flex-direction: column;
     justify-content: center;
+    h3{
+      margin: 0;
+      text-align: center;
+    }
+    h4{
+      margin: 10px 0 40px 0;
+      text-align: center;
+
+    }
   }
   &-header {
     display: flex;
@@ -16,10 +34,10 @@
   }
   &-filters {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     // flex-direction: column;
 
-    margin: 0 2rem 4rem 2rem;
+    margin: 0 2rem 2rem 2rem;
     select {
       background-color: #2f80ed;
       color: white;
@@ -30,16 +48,18 @@
       border-radius: 8px;
       font-size: 20px;
       box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
-
-      option {
-        // padding:30px;
-        // width: 200px;
-      }
+height: 48px;
+      
     }
     button {
-      max-width: 300px;
+      max-width: 200px;
       height: 48px;
       margin: 0;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    }
+    &--labelFilter{
+      display: flex;
+      flex-direction: column;
     }
   }
   &-pageButtonsWrapper {
